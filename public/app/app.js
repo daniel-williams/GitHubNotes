@@ -2,7 +2,8 @@
 var Router = require('react-router');
 var routes = require('./config/routes');
 
-Router.run(routes, function (Root) {
+// Router.HistoryLocation
+Router.run(routes, Router.HashLocation, function (Root) {
     React.render(<Root />, document.getElementById('app'));
 });
 

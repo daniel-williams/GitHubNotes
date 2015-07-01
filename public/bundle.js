@@ -50,7 +50,8 @@
 	var Router = __webpack_require__(157);
 	var routes = __webpack_require__(196);
 
-	Router.run(routes, function (Root) {
+	// Router.HistoryLocation
+	Router.run(routes, Router.HashLocation, function (Root) {
 	    React.render(React.createElement(Root, null), document.getElementById('app'));
 	});
 
@@ -23550,8 +23551,8 @@
 
 	var React = __webpack_require__(1);
 	var Main = __webpack_require__(197);
-	var Home = __webpack_require__(199);
-	var Profile = __webpack_require__(200);
+	var Home = __webpack_require__(200);
+	var Profile = __webpack_require__(201);
 	var Router = __webpack_require__(157);
 	var DefaultRoute = Router.DefaultRoute;
 	var Route = Router.Route;
@@ -23572,6 +23573,7 @@
 	var React = __webpack_require__(1);
 	var RouteHandler = __webpack_require__(157).RouteHandler;
 	var SearchGitHub = __webpack_require__(198);
+	var Drawer = __webpack_require__(199);
 
 	var Main = React.createClass({
 	    displayName: 'Main',
@@ -23580,6 +23582,7 @@
 	        return React.createElement(
 	            'div',
 	            { className: 'main-container' },
+	            React.createElement(Drawer, null),
 	            React.createElement(
 	                'nav',
 	                { className: 'navbar navbar-default', role: 'navigation' },
@@ -23652,6 +23655,70 @@
 /* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var tweenState = __webpack_require__(229);
+
+	var Drawer = React.createClass({
+	    displayName: 'Drawer',
+
+	    mixins: [tweenState.Mixin],
+	    getInitialState: function getInitialState() {
+	        return {
+	            left: 0
+	        };
+	    },
+	    handleClick: function handleClick(e) {
+	        this.tweenState('left', {
+	            easing: tweenState.easingTypes.easeInOutQuad,
+	            duration: 500,
+	            endValue: this.state.left === 0 ? -500 : 0
+	        });
+	    },
+	    render: function render() {
+	        var style = {
+	            position: 'fixed',
+	            width: 500,
+	            top: 0,
+	            bottom: 0,
+	            right: 0,
+	            left: this.getTweeningValue('left'),
+	            backgroundColor: '#3b3b3b',
+	            boxShadow: '1px 1px 3px rgba(0,0,0,.25)',
+	            zIndex: 999
+	        };
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	                'div',
+	                { className: 'sidebar', style: style },
+	                React.createElement(
+	                    'h1',
+	                    { className: 'menu-title' },
+	                    'Awesome Menu'
+	                )
+	            ),
+	            React.createElement(
+	                'div',
+	                { style: { textAlign: 'right' } },
+	                React.createElement(
+	                    'button',
+	                    { type: 'button', onClick: this.handleClick },
+	                    'Toggle'
+	                )
+	            )
+	        );
+	    }
+	});
+
+	module.exports = Drawer;
+
+/***/ },
+/* 200 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 
 	var React = __webpack_require__(1);
@@ -23671,19 +23738,19 @@
 	module.exports = Home;
 
 /***/ },
-/* 200 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(157);
-	var Repos = __webpack_require__(204);
-	var UserProfile = __webpack_require__(205);
-	var Notes = __webpack_require__(201);
-	var ReactFireMixin = __webpack_require__(206);
-	var Firebase = __webpack_require__(207);
-	var helpers = __webpack_require__(208);
+	var Repos = __webpack_require__(205);
+	var UserProfile = __webpack_require__(206);
+	var Notes = __webpack_require__(202);
+	var ReactFireMixin = __webpack_require__(207);
+	var Firebase = __webpack_require__(208);
+	var helpers = __webpack_require__(209);
 
 	var Profile = React.createClass({
 	    displayName: 'Profile',
@@ -23745,14 +23812,14 @@
 	module.exports = Profile;
 
 /***/ },
-/* 201 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var NoteList = __webpack_require__(202);
-	var AddNote = __webpack_require__(203);
+	var NoteList = __webpack_require__(203);
+	var AddNote = __webpack_require__(204);
 
 	var Notes = React.createClass({
 	    displayName: 'Notes',
@@ -23787,7 +23854,7 @@
 	module.exports = Notes;
 
 /***/ },
-/* 202 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -23818,7 +23885,7 @@
 	module.exports = NoteList;
 
 /***/ },
-/* 203 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23858,7 +23925,7 @@
 	module.exports = AddNote;
 
 /***/ },
-/* 204 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -23913,7 +23980,7 @@
 	module.exports = Repos;
 
 /***/ },
-/* 205 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -24006,7 +24073,7 @@
 	module.exports = UserProfile;
 
 /***/ },
-/* 206 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -24176,7 +24243,7 @@
 	}));
 
 /***/ },
-/* 207 */
+/* 208 */
 /***/ function(module, exports) {
 
 	/*! @license Firebase v2.2.7
@@ -24446,12 +24513,12 @@
 
 
 /***/ },
-/* 208 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var axios = __webpack_require__(209);
+	var axios = __webpack_require__(210);
 
 	function getRepos(username) {
 	    return axios.get('https://api.github.com/users/' + username + '/repos');
@@ -24476,28 +24543,28 @@
 	module.exports = helpers;
 
 /***/ },
-/* 209 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(210);
+	module.exports = __webpack_require__(211);
 
 /***/ },
-/* 210 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var defaults = __webpack_require__(211);
-	var utils = __webpack_require__(212);
-	var deprecatedMethod = __webpack_require__(213);
-	var dispatchRequest = __webpack_require__(214);
-	var InterceptorManager = __webpack_require__(221);
+	var defaults = __webpack_require__(212);
+	var utils = __webpack_require__(213);
+	var deprecatedMethod = __webpack_require__(214);
+	var dispatchRequest = __webpack_require__(215);
+	var InterceptorManager = __webpack_require__(222);
 
 	// Polyfill ES6 Promise if needed
 	(function () {
 	  // webpack is being used to set es6-promise to the native Promise
 	  // for the standalone build. It's necessary to make sure polyfill exists.
-	  var P = __webpack_require__(222);
+	  var P = __webpack_require__(223);
 	  if (P && typeof P.polyfill === 'function') {
 	    P.polyfill();
 	  }
@@ -24560,7 +24627,7 @@
 	axios.all = function (promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(227);
+	axios.spread = __webpack_require__(228);
 
 	// Expose interceptors
 	axios.interceptors = {
@@ -24599,12 +24666,12 @@
 
 
 /***/ },
-/* 211 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(212);
+	var utils = __webpack_require__(213);
 
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -24657,7 +24724,7 @@
 
 
 /***/ },
-/* 212 */
+/* 213 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24880,7 +24947,7 @@
 
 
 /***/ },
-/* 213 */
+/* 214 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24908,7 +24975,7 @@
 
 
 /***/ },
-/* 214 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -24925,11 +24992,11 @@
 	    try {
 	      // For browsers use XHR adapter
 	      if (typeof window !== 'undefined') {
-	        __webpack_require__(215)(resolve, reject, config);
+	        __webpack_require__(216)(resolve, reject, config);
 	      }
 	      // For node use HTTP adapter
 	      else if (typeof process !== 'undefined') {
-	        __webpack_require__(215)(resolve, reject, config);
+	        __webpack_require__(216)(resolve, reject, config);
 	      }
 	    } catch (e) {
 	      reject(e);
@@ -24941,20 +25008,20 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 215 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	/*global ActiveXObject:true*/
 
-	var defaults = __webpack_require__(211);
-	var utils = __webpack_require__(212);
-	var buildUrl = __webpack_require__(216);
-	var cookies = __webpack_require__(217);
-	var parseHeaders = __webpack_require__(218);
-	var transformData = __webpack_require__(219);
-	var urlIsSameOrigin = __webpack_require__(220);
+	var defaults = __webpack_require__(212);
+	var utils = __webpack_require__(213);
+	var buildUrl = __webpack_require__(217);
+	var cookies = __webpack_require__(218);
+	var parseHeaders = __webpack_require__(219);
+	var transformData = __webpack_require__(220);
+	var urlIsSameOrigin = __webpack_require__(221);
 
 	module.exports = function xhrAdapter(resolve, reject, config) {
 	  // Transform request data
@@ -25053,12 +25120,12 @@
 
 
 /***/ },
-/* 216 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(212);
+	var utils = __webpack_require__(213);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -25111,12 +25178,12 @@
 
 
 /***/ },
-/* 217 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(212);
+	var utils = __webpack_require__(213);
 
 	module.exports = {
 	  write: function write(name, value, expires, path, domain, secure) {
@@ -25154,12 +25221,12 @@
 
 
 /***/ },
-/* 218 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(212);
+	var utils = __webpack_require__(213);
 
 	/**
 	 * Parse headers into an object
@@ -25194,12 +25261,12 @@
 
 
 /***/ },
-/* 219 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(212);
+	var utils = __webpack_require__(213);
 
 	/**
 	 * Transform the data for a request or a response
@@ -25219,12 +25286,12 @@
 
 
 /***/ },
-/* 220 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(212);
+	var utils = __webpack_require__(213);
 	var msie = /(msie|trident)/i.test(navigator.userAgent);
 	var urlParsingNode = document.createElement('a');
 	var originUrl;
@@ -25277,12 +25344,12 @@
 
 
 /***/ },
-/* 221 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(212);
+	var utils = __webpack_require__(213);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -25335,7 +25402,7 @@
 
 
 /***/ },
-/* 222 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, setImmediate, global, module) {/*!
@@ -25474,7 +25541,7 @@
 	    function lib$es6$promise$asap$$attemptVertex() {
 	      try {
 	        var r = require;
-	        var vertx = __webpack_require__(225);
+	        var vertx = __webpack_require__(226);
 	        lib$es6$promise$asap$$vertxNext = vertx.runOnLoop || vertx.runOnContext;
 	        return lib$es6$promise$asap$$useVertxTimer();
 	      } catch(e) {
@@ -26299,7 +26366,7 @@
 	    };
 
 	    /* global define:true module:true window: true */
-	    if ("function" === 'function' && __webpack_require__(226)['amd']) {
+	    if ("function" === 'function' && __webpack_require__(227)['amd']) {
 	      !(__WEBPACK_AMD_DEFINE_RESULT__ = function() { return lib$es6$promise$umd$$ES6Promise; }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof module !== 'undefined' && module['exports']) {
 	      module['exports'] = lib$es6$promise$umd$$ES6Promise;
@@ -26311,10 +26378,10 @@
 	}).call(this);
 
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(223).setImmediate, (function() { return this; }()), __webpack_require__(224)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(224).setImmediate, (function() { return this; }()), __webpack_require__(225)(module)))
 
 /***/ },
-/* 223 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(3).nextTick;
@@ -26393,10 +26460,10 @@
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(223).setImmediate, __webpack_require__(223).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(224).setImmediate, __webpack_require__(224).clearImmediate))
 
 /***/ },
-/* 224 */
+/* 225 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -26412,20 +26479,20 @@
 
 
 /***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports) {
 
 	/* (ignored) */
 
 /***/ },
-/* 226 */
+/* 227 */
 /***/ function(module, exports) {
 
 	module.exports = function() { throw new Error("define cannot be used indirect"); };
 
 
 /***/ },
-/* 227 */
+/* 228 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -26456,6 +26523,521 @@
 	  };
 	};
 
+
+/***/ },
+/* 229 */
+/***/ function(module, exports, __webpack_require__) {
+
+	(function webpackUniversalModuleDefinition(root, factory) {
+		if(true)
+			module.exports = factory();
+		else if(typeof define === 'function' && define.amd)
+			define(factory);
+		else if(typeof exports === 'object')
+			exports["tweenState"] = factory();
+		else
+			root["tweenState"] = factory();
+	})(this, function() {
+	return /******/ (function(modules) { // webpackBootstrap
+	/******/ 	// The module cache
+	/******/ 	var installedModules = {};
+	/******/
+	/******/ 	// The require function
+	/******/ 	function __webpack_require__(moduleId) {
+	/******/
+	/******/ 		// Check if module is in cache
+	/******/ 		if(installedModules[moduleId])
+	/******/ 			return installedModules[moduleId].exports;
+	/******/
+	/******/ 		// Create a new module (and put it into the cache)
+	/******/ 		var module = installedModules[moduleId] = {
+	/******/ 			exports: {},
+	/******/ 			id: moduleId,
+	/******/ 			loaded: false
+	/******/ 		};
+	/******/
+	/******/ 		// Execute the module function
+	/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+	/******/
+	/******/ 		// Flag the module as loaded
+	/******/ 		module.loaded = true;
+	/******/
+	/******/ 		// Return the exports of the module
+	/******/ 		return module.exports;
+	/******/ 	}
+	/******/
+	/******/
+	/******/ 	// expose the modules object (__webpack_modules__)
+	/******/ 	__webpack_require__.m = modules;
+	/******/
+	/******/ 	// expose the module cache
+	/******/ 	__webpack_require__.c = installedModules;
+	/******/
+	/******/ 	// __webpack_public_path__
+	/******/ 	__webpack_require__.p = "";
+	/******/
+	/******/ 	// Load entry module and return exports
+	/******/ 	return __webpack_require__(0);
+	/******/ })
+	/************************************************************************/
+	/******/ ([
+	/* 0 */
+	/*!*****************!*\
+	  !*** multi lib ***!
+	  \*****************/
+	/***/ function(module, exports, __webpack_require__) {
+
+		module.exports = __webpack_require__(/*! ./index.js */2);
+
+
+	/***/ },
+	/* 1 */,
+	/* 2 */
+	/*!******************!*\
+	  !*** ./index.js ***!
+	  \******************/
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+		
+		Object.defineProperty(exports, '__esModule', {
+		  value: true
+		});
+		
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+		
+		var _tweenFunctions = __webpack_require__(/*! tween-functions */ 3);
+		
+		var _tweenFunctions2 = _interopRequireDefault(_tweenFunctions);
+		
+		// additive is the new iOS 8 default. In most cases it simulates a physics-
+		// looking overshoot behavior (especially with easeInOut. You can test that in
+		// the example
+		var DEFAULT_STACK_BEHAVIOR = 'ADDITIVE';
+		var DEFAULT_EASING = _tweenFunctions.easeInOutQuad;
+		var DEFAULT_DURATION = 300;
+		var DEFAULT_DELAY = 0;
+		
+		exports.easingTypes = _tweenFunctions2['default'];
+		var stackBehavior = {
+		  ADDITIVE: 'ADDITIVE',
+		  DESTRUCTIVE: 'DESTRUCTIVE'
+		};
+		exports.stackBehavior = stackBehavior;
+		var Mixin = {
+		  getInitialState: function getInitialState() {
+		    return {
+		      tweenQueue: []
+		    };
+		  },
+		
+		  tweenState: function tweenState(path, _ref) {
+		    var _this = this;
+		
+		    var easing = _ref.easing;
+		    var duration = _ref.duration;
+		    var delay = _ref.delay;
+		    var beginValue = _ref.beginValue;
+		    var endValue = _ref.endValue;
+		    var onEnd = _ref.onEnd;
+		    var configSB = _ref.stackBehavior;
+		
+		    this.setState(function (state) {
+		      var cursor = state;
+		      var stateName = undefined;
+		      // see comment below on pash hash
+		      var pathHash = undefined;
+		      if (typeof path === 'string') {
+		        stateName = path;
+		        pathHash = path;
+		      } else {
+		        for (var i = 0; i < path.length - 1; i++) {
+		          cursor = cursor[path[i]];
+		        }
+		        stateName = path[path.length - 1];
+		        pathHash = path.join('|');
+		      }
+		      // see the reasoning for these defaults at the top of file
+		      var newConfig = {
+		        easing: easing || DEFAULT_EASING,
+		        duration: duration == null ? DEFAULT_DURATION : duration,
+		        delay: delay == null ? DEFAULT_DELAY : delay,
+		        beginValue: beginValue == null ? cursor[stateName] : beginValue,
+		        endValue: endValue,
+		        onEnd: onEnd,
+		        stackBehavior: configSB || DEFAULT_STACK_BEHAVIOR
+		      };
+		
+		      var newTweenQueue = state.tweenQueue;
+		      if (newConfig.stackBehavior === stackBehavior.DESTRUCTIVE) {
+		        newTweenQueue = state.tweenQueue.filter(function (item) {
+		          return item.pathHash !== pathHash;
+		        });
+		      }
+		
+		      // we store path hash, so that during value retrieval we can use hash
+		      // comparison to find the path. See the kind of shitty thing you have to
+		      // do when you don't have value comparison for collections?
+		      newTweenQueue.push({
+		        pathHash: pathHash,
+		        config: newConfig,
+		        initTime: Date.now() + newConfig.delay
+		      });
+		
+		      // sorry for mutating. For perf reasons we don't want to deep clone.
+		      // guys, can we please all start using persistent collections so that
+		      // we can stop worrying about nonesense like this
+		      cursor[stateName] = newConfig.endValue;
+		      if (newTweenQueue.length === 1) {
+		        _this.startRaf();
+		      }
+		
+		      // this will also include the above mutated update
+		      return { tweenQueue: newTweenQueue };
+		    });
+		  },
+		
+		  getTweeningValue: function getTweeningValue(path) {
+		    var state = this.state;
+		
+		    var tweeningValue = undefined;
+		    var pathHash = undefined;
+		    if (typeof path === 'string') {
+		      tweeningValue = state[path];
+		      pathHash = path;
+		    } else {
+		      tweeningValue = state;
+		      for (var i = 0; i < path.length; i++) {
+		        tweeningValue = tweeningValue[path[i]];
+		      }
+		      pathHash = path.join('|');
+		    }
+		    var now = Date.now();
+		
+		    for (var i = 0; i < state.tweenQueue.length; i++) {
+		      var item = state.tweenQueue[i];
+		      if (item.pathHash !== pathHash) {
+		        continue;
+		      }
+		
+		      var progressTime = now - item.initTime > item.config.duration ? item.config.duration : Math.max(0, now - item.initTime);
+		      // `now - item.initTime` can be negative if initTime is scheduled in the
+		      // future by a delay. In this case we take 0
+		
+		      var contrib = -item.config.endValue + item.config.easing(progressTime, item.config.beginValue, item.config.endValue, item.config.duration);
+		      tweeningValue += contrib;
+		    }
+		
+		    return tweeningValue;
+		  },
+		
+		  _rafCb: function _rafCb() {
+		    var state = this.state;
+		    if (state.tweenQueue.length === 0) {
+		      return;
+		    }
+		
+		    var now = Date.now();
+		    var newTweenQueue = [];
+		
+		    for (var i = 0; i < state.tweenQueue.length; i++) {
+		      var item = state.tweenQueue[i];
+		      if (now - item.initTime < item.config.duration) {
+		        newTweenQueue.push(item);
+		      } else {
+		        item.config.onEnd && item.config.onEnd();
+		      }
+		    }
+		
+		    // onEnd might trigger a parent callback that removes this component
+		    if (!this.isMounted()) {
+		      return;
+		    }
+		
+		    this.setState({
+		      tweenQueue: newTweenQueue
+		    });
+		
+		    requestAnimationFrame(this._rafCb);
+		  },
+		
+		  startRaf: function startRaf() {
+		    requestAnimationFrame(this._rafCb);
+		  }
+		};
+		exports.Mixin = Mixin;
+		
+		// TODO: some funcs accept a 5th param
+
+	/***/ },
+	/* 3 */
+	/*!************************************!*\
+	  !*** ./~/tween-functions/index.js ***!
+	  \************************************/
+	/***/ function(module, exports) {
+
+		'use strict';
+		
+		// t: current time, b: beginning value, _c: final value, d: total duration
+		var tweenFunctions = {
+		  linear: function(t, b, _c, d) {
+		    var c = _c - b;
+		    return c * t / d + b;
+		  },
+		  easeInQuad: function(t, b, _c, d) {
+		    var c = _c - b;
+		    return c * (t /= d) * t + b;
+		  },
+		  easeOutQuad: function(t, b, _c, d) {
+		    var c = _c - b;
+		    return -c * (t /= d) * (t - 2) + b;
+		  },
+		  easeInOutQuad: function(t, b, _c, d) {
+		    var c = _c - b;
+		    if ((t /= d / 2) < 1) {
+		      return c / 2 * t * t + b;
+		    } else {
+		      return -c / 2 * ((--t) * (t - 2) - 1) + b;
+		    }
+		  },
+		  easeInCubic: function(t, b, _c, d) {
+		    var c = _c - b;
+		    return c * (t /= d) * t * t + b;
+		  },
+		  easeOutCubic: function(t, b, _c, d) {
+		    var c = _c - b;
+		    return c * ((t = t / d - 1) * t * t + 1) + b;
+		  },
+		  easeInOutCubic: function(t, b, _c, d) {
+		    var c = _c - b;
+		    if ((t /= d / 2) < 1) {
+		      return c / 2 * t * t * t + b;
+		    } else {
+		      return c / 2 * ((t -= 2) * t * t + 2) + b;
+		    }
+		  },
+		  easeInQuart: function(t, b, _c, d) {
+		    var c = _c - b;
+		    return c * (t /= d) * t * t * t + b;
+		  },
+		  easeOutQuart: function(t, b, _c, d) {
+		    var c = _c - b;
+		    return -c * ((t = t / d - 1) * t * t * t - 1) + b;
+		  },
+		  easeInOutQuart: function(t, b, _c, d) {
+		    var c = _c - b;
+		    if ((t /= d / 2) < 1) {
+		      return c / 2 * t * t * t * t + b;
+		    } else {
+		      return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
+		    }
+		  },
+		  easeInQuint: function(t, b, _c, d) {
+		    var c = _c - b;
+		    return c * (t /= d) * t * t * t * t + b;
+		  },
+		  easeOutQuint: function(t, b, _c, d) {
+		    var c = _c - b;
+		    return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
+		  },
+		  easeInOutQuint: function(t, b, _c, d) {
+		    var c = _c - b;
+		    if ((t /= d / 2) < 1) {
+		      return c / 2 * t * t * t * t * t + b;
+		    } else {
+		      return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
+		    }
+		  },
+		  easeInSine: function(t, b, _c, d) {
+		    var c = _c - b;
+		    return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
+		  },
+		  easeOutSine: function(t, b, _c, d) {
+		    var c = _c - b;
+		    return c * Math.sin(t / d * (Math.PI / 2)) + b;
+		  },
+		  easeInOutSine: function(t, b, _c, d) {
+		    var c = _c - b;
+		    return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
+		  },
+		  easeInExpo: function(t, b, _c, d) {
+		    var c = _c - b;
+		    var _ref;
+		    return (_ref = t === 0) !== null ? _ref : {
+		      b: c * Math.pow(2, 10 * (t / d - 1)) + b
+		    };
+		  },
+		  easeOutExpo: function(t, b, _c, d) {
+		    var c = _c - b;
+		    var _ref;
+		    return (_ref = t === d) !== null ? _ref : b + {
+		      c: c * (-Math.pow(2, -10 * t / d) + 1) + b
+		    };
+		  },
+		  easeInOutExpo: function(t, b, _c, d) {
+		    var c = _c - b;
+		    if (t === 0) {
+		      b;
+		    }
+		    if (t === d) {
+		      b + c;
+		    }
+		    if ((t /= d / 2) < 1) {
+		      return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
+		    } else {
+		      return c / 2 * (-Math.pow(2, -10 * --t) + 2) + b;
+		    }
+		  },
+		  easeInCirc: function(t, b, _c, d) {
+		    var c = _c - b;
+		    return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
+		  },
+		  easeOutCirc: function(t, b, _c, d) {
+		    var c = _c - b;
+		    return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
+		  },
+		  easeInOutCirc: function(t, b, _c, d) {
+		    var c = _c - b;
+		    if ((t /= d / 2) < 1) {
+		      return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
+		    } else {
+		      return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
+		    }
+		  },
+		  easeInElastic: function(t, b, _c, d) {
+		    var c = _c - b;
+		    var a, p, s;
+		    s = 1.70158;
+		    p = 0;
+		    a = c;
+		    if (t === 0) {
+		      b;
+		    } else if ((t /= d) === 1) {
+		      b + c;
+		    }
+		    if (!p) {
+		      p = d * 0.3;
+		    }
+		    if (a < Math.abs(c)) {
+		      a = c;
+		      s = p / 4;
+		    } else {
+		      s = p / (2 * Math.PI) * Math.asin(c / a);
+		    }
+		    return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+		  },
+		  easeOutElastic: function(t, b, _c, d) {
+		    var c = _c - b;
+		    var a, p, s;
+		    s = 1.70158;
+		    p = 0;
+		    a = c;
+		    if (t === 0) {
+		      b;
+		    } else if ((t /= d) === 1) {
+		      b + c;
+		    }
+		    if (!p) {
+		      p = d * 0.3;
+		    }
+		    if (a < Math.abs(c)) {
+		      a = c;
+		      s = p / 4;
+		    } else {
+		      s = p / (2 * Math.PI) * Math.asin(c / a);
+		    }
+		    return a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
+		  },
+		  easeInOutElastic: function(t, b, _c, d) {
+		    var c = _c - b;
+		    var a, p, s;
+		    s = 1.70158;
+		    p = 0;
+		    a = c;
+		    if (t === 0) {
+		      b;
+		    } else if ((t /= d / 2) === 2) {
+		      b + c;
+		    }
+		    if (!p) {
+		      p = d * (0.3 * 1.5);
+		    }
+		    if (a < Math.abs(c)) {
+		      a = c;
+		      s = p / 4;
+		    } else {
+		      s = p / (2 * Math.PI) * Math.asin(c / a);
+		    }
+		    if (t < 1) {
+		      return -0.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+		    } else {
+		      return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p) * 0.5 + c + b;
+		    }
+		  },
+		  easeInBack: function(t, b, _c, d, s) {
+		    var c = _c - b;
+		    if (s === void 0) {
+		      s = 1.70158;
+		    }
+		    return c * (t /= d) * t * ((s + 1) * t - s) + b;
+		  },
+		  easeOutBack: function(t, b, _c, d, s) {
+		    var c = _c - b;
+		    if (s === void 0) {
+		      s = 1.70158;
+		    }
+		    return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
+		  },
+		  easeInOutBack: function(t, b, _c, d, s) {
+		    var c = _c - b;
+		    if (s === void 0) {
+		      s = 1.70158;
+		    }
+		    if ((t /= d / 2) < 1) {
+		      return c / 2 * (t * t * (((s *= 1.525) + 1) * t - s)) + b;
+		    } else {
+		      return c / 2 * ((t -= 2) * t * (((s *= 1.525) + 1) * t + s) + 2) + b;
+		    }
+		  },
+		  easeInBounce: function(t, b, _c, d) {
+		    var c = _c - b;
+		    var v;
+		    v = tweenFunctions.easeOutBounce(d - t, 0, c, d);
+		    return c - v + b;
+		  },
+		  easeOutBounce: function(t, b, _c, d) {
+		    var c = _c - b;
+		    if ((t /= d) < 1 / 2.75) {
+		      return c * (7.5625 * t * t) + b;
+		    } else if (t < 2 / 2.75) {
+		      return c * (7.5625 * (t -= 1.5 / 2.75) * t + 0.75) + b;
+		    } else if (t < 2.5 / 2.75) {
+		      return c * (7.5625 * (t -= 2.25 / 2.75) * t + 0.9375) + b;
+		    } else {
+		      return c * (7.5625 * (t -= 2.625 / 2.75) * t + 0.984375) + b;
+		    }
+		  },
+		  easeInOutBounce: function(t, b, _c, d) {
+		    var c = _c - b;
+		    var v;
+		    if (t < d / 2) {
+		      v = tweenFunctions.easeInBounce(t * 2, 0, c, d);
+		      return v * 0.5 + b;
+		    } else {
+		      v = tweenFunctions.easeOutBounce(t * 2 - d, 0, c, d);
+		      return v * 0.5 + c * 0.5 + b;
+		    }
+		  }
+		};
+		
+		module.exports = tweenFunctions;
+
+
+	/***/ }
+	/******/ ])
+	});
+	;
+	//# sourceMappingURL=index.js.map
 
 /***/ }
 /******/ ]);
